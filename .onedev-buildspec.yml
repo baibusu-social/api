@@ -1,0 +1,20 @@
+version: 40
+jobs:
+- name: Dockerfile build and publish
+  jobExecutor: internal-baibusu
+  steps:
+  - !BuildImageStep
+    name: baibusu-api
+    dockerfile: Dockerfile
+    output: !RegistryOutput
+      tags: '@tag@'
+    condition: SUCCESSFUL
+    optional: false
+  triggers:
+  - !TagCreateTrigger
+    branches: master
+    projects: baibusu-api
+  retryCondition: never
+  maxRetries: 3
+  retryDelay: 30
+  timeout: 14400
