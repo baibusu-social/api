@@ -11,5 +11,5 @@
     "psql",
     "trixie"
   ],
-  "conventionalCommits.scopes": ["docker"]
+  "conventionalCommits.scopes": ["docker", "github-actions"]
 }
