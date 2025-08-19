@@ -10,5 +10,6 @@
     "Prehook",
     "psql",
     "trixie"
-  ]
+  ],
+  "conventionalCommits.scopes": ["docker"]
 }
