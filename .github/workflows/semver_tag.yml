@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [master]
+    branches: [release]
 
 name: Generate SemVer Version
 
@@ -26,7 +26,7 @@ jobs:
         id: calculate-version
         uses: bitshifted/git-auto-semver@v1
         with:
-          main_branch: master
+          main_branch: release
           create_tag: true
       - name: Use version
         run: 'echo "Calculated version: ${{ steps.calculate-version.outputs.version-string }}"'
