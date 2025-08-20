@@ -1,9 +1,3 @@
-import { URL, fileURLToPath } from 'node:url';
-import { readFileSync } from 'node:fs';
-
-const basePackageJson = fileURLToPath(new URL('../../package.json', import.meta.url));
-const VERSION = JSON.parse(readFileSync(basePackageJson, 'utf8')).version;
-
 const readme = `
 ![](/meta.jpg)
 
@@ -23,7 +17,6 @@ export default {
     info: {
       title: 'Baibusu API',
       description: readme,
-      version: VERSION,
     },
     tags: [
       {
@@ -31,5 +24,14 @@ export default {
         description: 'Insult routes.',
       },
     ],
+    components: {
+      securitySchemes: {
+        ApiKeyAuth: {
+          type: 'apiKey',
+          in: 'header',
+          name: 'x-api-key',
+        },
+      },
+    },
   },
 };

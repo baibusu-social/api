@@ -1,9 +1,7 @@
 "use strict";
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -17,14 +15,6 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // src/routes/insults/list.ts
@@ -34,7 +24,7 @@ __export(list_exports, {
 });
 module.exports = __toCommonJS(list_exports);
 var import_fastify_type_provider_zod = require("fastify-type-provider-zod");
-var import_zod4 = __toESM(require("zod"));
+var import_zod4 = require("zod");
 
 // src/lib/prisma.ts
 var import_client = require("@prisma/client");
@@ -44,6 +34,14 @@ if (process.env.NODE_ENV !== "production") globalThis.prisma = db;
 // src/structures/schemas/ResponseMessage.ts
 var import_zod = require("zod");
 var responseMessageSchema = import_zod.z.string().describe("A message describing the result of the request.");
+var insultSchema = import_zod.z.object({
+  id: import_zod.z.string(),
+  author: import_zod.z.string(),
+  content: import_zod.z.string()
+});
+var listInsultsResponseSchema = import_zod.z.object({
+  insults: import_zod.z.array(insultSchema)
+});
 
 // src/structures/schemas/HTTP4xxError.ts
 var import_zod2 = require("zod");
@@ -71,9 +69,7 @@ async function listAllInsults(app) {
         description: "Lists all available insults",
         tags: ["Insults"],
         response: {
-          200: import_zod4.default.object({
-            message: responseMessageSchema
-          }),
+          200: listInsultsResponseSchema,
           "4xx": http4xxErrorSchema,
           "5xx": http5xxErrorSchema
         }

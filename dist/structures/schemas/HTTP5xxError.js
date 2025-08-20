@@ -28,6 +28,14 @@ var import_zod2 = require("zod");
 // src/structures/schemas/ResponseMessage.ts
 var import_zod = require("zod");
 var responseMessageSchema = import_zod.z.string().describe("A message describing the result of the request.");
+var insultSchema = import_zod.z.object({
+  id: import_zod.z.string(),
+  author: import_zod.z.string(),
+  content: import_zod.z.string()
+});
+var listInsultsResponseSchema = import_zod.z.object({
+  insults: import_zod.z.array(insultSchema)
+});
 
 // src/structures/schemas/HTTP5xxError.ts
 var http5xxErrorSchema = import_zod2.z.object({

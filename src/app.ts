@@ -23,7 +23,7 @@ app.register(cors, {
 });
 
 // Swagger documentation setup
-app.register(fastifySwagger, { ...Docs, transform: jsonSchemaTransform });
+app.register(fastifySwagger, { ...Docs, transform: jsonSchemaTransform, security: [{ ApiKeyAuth: [] }] });
 
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);

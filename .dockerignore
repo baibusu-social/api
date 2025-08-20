@@ -35,11 +35,12 @@ lerna-debug.log*
 # other
 **/*.DS_Store
 .vscode
+.github
 README.md
 LICENSE
 Dockerfile*
 docker-compose*
 .git
 .gitignore
-/prisma
 docker-compose.yml
+docker.env

@@ -68,11 +68,6 @@ var logger = (0, import_pino.default)({
 var logger_default = logger;
 
 // src/lib/docs.ts
-var import_node_url = require("url");
-var import_node_fs = require("fs");
-var import_meta = {};
-var basePackageJson = (0, import_node_url.fileURLToPath)(new import_node_url.URL("../../package.json", import_meta.url));
-var VERSION = JSON.parse((0, import_node_fs.readFileSync)(basePackageJson, "utf8")).version;
 var readme = `
 ![](/meta.jpg)
 
@@ -90,15 +85,23 @@ var docs_default = {
     produces: ["application/json"],
     info: {
       title: "Baibusu API",
-      description: readme,
-      version: VERSION
+      description: readme
     },
     tags: [
       {
         name: "Insults",
         description: "Insult routes."
       }
-    ]
+    ],
+    components: {
+      securitySchemes: {
+        ApiKeyAuth: {
+          type: "apiKey",
+          in: "header",
+          name: "x-api-key"
+        }
+      }
+    }
   }
 };
 
@@ -126,6 +129,14 @@ if (process.env.NODE_ENV !== "production") globalThis.prisma = db;
 // src/structures/schemas/ResponseMessage.ts
 var import_zod2 = require("zod");
 var responseMessageSchema = import_zod2.z.string().describe("A message describing the result of the request.");
+var insultSchema = import_zod2.z.object({
+  id: import_zod2.z.string(),
+  author: import_zod2.z.string(),
+  content: import_zod2.z.string()
+});
+var listInsultsResponseSchema = import_zod2.z.object({
+  insults: import_zod2.z.array(insultSchema)
+});
 
 // src/structures/schemas/HTTP4xxError.ts
 var import_zod3 = require("zod");
@@ -180,7 +191,7 @@ async function createInsult(app2) {
 
 // src/routes/insults/list.ts
 var import_fastify_type_provider_zod2 = require("fastify-type-provider-zod");
-var import_zod6 = __toESM(require("zod"));
+var import_zod6 = require("zod");
 async function listAllInsults(app2) {
   app2.withTypeProvider().get(
     "/insults",
@@ -190,9 +201,7 @@ async function listAllInsults(app2) {
         description: "Lists all available insults",
         tags: ["Insults"],
         response: {
-          200: import_zod6.default.object({
-            message: responseMessageSchema
-          }),
+          200: listInsultsResponseSchema,
           "4xx": http4xxErrorSchema,
           "5xx": http5xxErrorSchema
         }
@@ -224,7 +233,14 @@ async function deleteInsult(app2) {
         tags: ["Insults"],
         params: import_zod7.default.object({
           uuid: import_zod7.default.string().uuid()
-        })
+        }),
+        response: {
+          200: import_zod7.default.object({
+            message: responseMessageSchema
+          }),
+          "4xx": http4xxErrorSchema,
+          "5xx": http5xxErrorSchema
+        }
       }
     },
     async (request, reply) => {
@@ -253,7 +269,7 @@ var app = (0, import_fastify.default)({
 app.register(import_cors.default, {
   origin: "*"
 });
-app.register(import_swagger.default, { ...docs_default, transform: import_fastify_type_provider_zod5.jsonSchemaTransform });
+app.register(import_swagger.default, { ...docs_default, transform: import_fastify_type_provider_zod5.jsonSchemaTransform, security: [{ ApiKeyAuth: [] }] });
 app.setValidatorCompiler(import_fastify_type_provider_zod5.validatorCompiler);
 app.setSerializerCompiler(import_fastify_type_provider_zod5.serializerCompiler);
 app.get("/healthcheck", (req, res) => {
