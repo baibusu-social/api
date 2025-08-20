@@ -33,7 +33,7 @@ __export(insults_exports, {
   insultRoutes: () => insultRoutes
 });
 module.exports = __toCommonJS(insults_exports);
-var import_fastify_type_provider_zod4 = require("fastify-type-provider-zod");
+var import_fastify_type_provider_zod5 = require("fastify-type-provider-zod");
 
 // src/routes/insults/create.ts
 var import_fastify_type_provider_zod = require("fastify-type-provider-zod");
@@ -172,12 +172,46 @@ async function deleteInsult(app) {
   );
 }
 
+// src/routes/insults/random.ts
+var import_fastify_type_provider_zod4 = require("fastify-type-provider-zod");
+var import_zod7 = require("zod");
+async function randomInsults(app) {
+  app.withTypeProvider().get(
+    "/insults/random",
+    {
+      schema: {
+        summary: "Random",
+        description: "Get's you a random insult.",
+        tags: ["Insults"],
+        response: {
+          "4xx": http4xxErrorSchema,
+          "5xx": http5xxErrorSchema
+        }
+      }
+    },
+    async (request, reply) => {
+      const count = await db.insult.count();
+      const skip = Math.floor(Math.random() * count);
+      const insults = await db.insult.findFirst({
+        skip,
+        select: {
+          id: true,
+          author: true,
+          content: true
+        }
+      });
+      return reply.send({ insults });
+    }
+  );
+}
+
 // src/routes/insults/index.ts
 async function insultRoutes(app) {
   const typedApp = app.withTypeProvider();
   typedApp.register(createInsult);
   typedApp.register(listAllInsults);
   typedApp.register(deleteInsult);
+  typedApp.register(randomInsults);
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
