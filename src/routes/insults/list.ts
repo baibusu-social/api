@@ -3,7 +3,7 @@ import { ZodTypeProvider } from 'fastify-type-provider-zod';
 import z from 'zod';
 
 import { db } from '../../lib/prisma';
-import { responseMessageSchema } from '../../structures/schemas/ResponseMessage';
+import { listInsultsResponseSchema } from '../../structures/schemas/ResponseMessage';
 import { http4xxErrorSchema } from '../../structures/schemas/HTTP4xxError';
 import { http5xxErrorSchema } from '../../structures/schemas/HTTP5xxError';
 
@@ -16,9 +16,7 @@ export async function listAllInsults(app: FastifyInstance) {
         description: 'Lists all available insults',
         tags: ['Insults'],
         response: {
-          200: z.object({
-            message: responseMessageSchema,
-          }),
+          200: listInsultsResponseSchema,
           '4xx': http4xxErrorSchema,
           '5xx': http5xxErrorSchema,
         },

@@ -23,11 +23,6 @@ __export(docs_exports, {
   default: () => docs_default
 });
 module.exports = __toCommonJS(docs_exports);
-var import_node_url = require("url");
-var import_node_fs = require("fs");
-var import_meta = {};
-var basePackageJson = (0, import_node_url.fileURLToPath)(new import_node_url.URL("../../package.json", import_meta.url));
-var VERSION = JSON.parse((0, import_node_fs.readFileSync)(basePackageJson, "utf8")).version;
 var readme = `
 ![](/meta.jpg)
 
@@ -45,14 +40,22 @@ var docs_default = {
     produces: ["application/json"],
     info: {
       title: "Baibusu API",
-      description: readme,
-      version: VERSION
+      description: readme
     },
     tags: [
       {
         name: "Insults",
         description: "Insult routes."
       }
-    ]
+    ],
+    components: {
+      securitySchemes: {
+        ApiKeyAuth: {
+          type: "apiKey",
+          in: "header",
+          name: "x-api-key"
+        }
+      }
+    }
   }
 };

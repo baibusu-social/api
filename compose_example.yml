@@ -1,0 +1,47 @@
+# Baibusu.Social Community
+# This is a master file, any options not being used can simply be commented out.
+services:
+  api:
+    image: ghcr.io/baibusu-social/api:latest
+    container_name: baibusu_api
+    restart: unless-stopped
+    ports:
+      - $PORT:3000
+    networks:
+      - baibusu
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${DATABASE_PASSWORD}@localhost:5432/api?schema=public # Same username and password as below
+      - APIKEY=APIKEY # Your super secret code
+      - NODE_ENV=production # production, test (utilizes .env.test)
+      - LOG_LEVEL=info # trace, debug, info, warn, error, fatal
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+
+  db:
+    profiles: [dev, prod]
+    image: postgres:17-trixie
+    container_name: baibusu_db
+    restart: unless-stopped
+    ports:
+      - 5432:5432 # Expose PostgreSQL port for development (remove in production)
+    networks:
+      - baibusu
+    volumes:
+      - dev_db_volume:/var/lib/postgresql/data # Persist database data in a Docker volume
+      - ./scripts/database:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: postgres # change at your own discretion
+      POSTGRES_PASSWORD: postgres # recommend changing to some secret
+      POSTGRES_MULTIPLE_DATABASES: api, kazuko # list databases you would like to create
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready', '-d', 'api']
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+
+volumes:
+  dev_db_volume:
+    driver: local # Specify the volume driver for local persistence

@@ -47,6 +47,14 @@ if (process.env.NODE_ENV !== "production") globalThis.prisma = db;
 // src/structures/schemas/ResponseMessage.ts
 var import_zod = require("zod");
 var responseMessageSchema = import_zod.z.string().describe("A message describing the result of the request.");
+var insultSchema = import_zod.z.object({
+  id: import_zod.z.string(),
+  author: import_zod.z.string(),
+  content: import_zod.z.string()
+});
+var listInsultsResponseSchema = import_zod.z.object({
+  insults: import_zod.z.array(insultSchema)
+});
 
 // src/structures/schemas/HTTP4xxError.ts
 var import_zod2 = require("zod");
@@ -101,7 +109,7 @@ async function createInsult(app) {
 
 // src/routes/insults/list.ts
 var import_fastify_type_provider_zod2 = require("fastify-type-provider-zod");
-var import_zod5 = __toESM(require("zod"));
+var import_zod5 = require("zod");
 async function listAllInsults(app) {
   app.withTypeProvider().get(
     "/insults",
@@ -111,9 +119,7 @@ async function listAllInsults(app) {
         description: "Lists all available insults",
         tags: ["Insults"],
         response: {
-          200: import_zod5.default.object({
-            message: responseMessageSchema
-          }),
+          200: listInsultsResponseSchema,
           "4xx": http4xxErrorSchema,
           "5xx": http5xxErrorSchema
         }
@@ -145,7 +151,14 @@ async function deleteInsult(app) {
         tags: ["Insults"],
         params: import_zod6.default.object({
           uuid: import_zod6.default.string().uuid()
-        })
+        }),
+        response: {
+          200: import_zod6.default.object({
+            message: responseMessageSchema
+          }),
+          "4xx": http4xxErrorSchema,
+          "5xx": http5xxErrorSchema
+        }
       }
     },
     async (request, reply) => {

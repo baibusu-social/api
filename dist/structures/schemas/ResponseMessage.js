@@ -20,12 +20,22 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/structures/schemas/ResponseMessage.ts
 var ResponseMessage_exports = {};
 __export(ResponseMessage_exports, {
+  listInsultsResponseSchema: () => listInsultsResponseSchema,
   responseMessageSchema: () => responseMessageSchema
 });
 module.exports = __toCommonJS(ResponseMessage_exports);
 var import_zod = require("zod");
 var responseMessageSchema = import_zod.z.string().describe("A message describing the result of the request.");
+var insultSchema = import_zod.z.object({
+  id: import_zod.z.string(),
+  author: import_zod.z.string(),
+  content: import_zod.z.string()
+});
+var listInsultsResponseSchema = import_zod.z.object({
+  insults: import_zod.z.array(insultSchema)
+});
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  listInsultsResponseSchema,
   responseMessageSchema
 });

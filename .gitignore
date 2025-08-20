@@ -3,3 +3,4 @@
 /.env.test
 /src/generated/prisma
 /docker-compose.yaml
+/dist

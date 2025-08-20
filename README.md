@@ -23,16 +23,16 @@ Generally the included docker-compose.yml along with .env should include everyth
 
 Create needed directory.
 
-`mkdir babibusu && mkdir babibusu/api`
+`mkdir babibusu`
 
 Fetch required files
 
 ```bash
-wget -O babibusu/api/docker-compose.yml https://raw.githubusercontent.com/baibusu-social/api/refs/heads/release/docker-compose.yml
-wget -O baibusu/api/docker.env https://raw.githubusercontent.com/baibusu-social/api/refs/heads/release/docker.ev
-cd baibusu/api
+wget -O babibusu/docker-compose.yml https://raw.githubusercontent.com/baibusu-social/api/refs/heads/release/compose-example.yml
+cd baibusu
 ```
 
-Make any edits you need to both the compose and env files. The run the docker compose file.
+Make any edits required in the docker-compose.yml file, you may comment out any items you don't need. If they are listed in `depends_on` you must leave them or you
+will encounter errors. All API keys are mandatory.
 
 `docker compose up -d`

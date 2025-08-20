@@ -34,12 +34,40 @@ __export(delete_exports, {
 });
 module.exports = __toCommonJS(delete_exports);
 var import_fastify_type_provider_zod = require("fastify-type-provider-zod");
-var import_zod = __toESM(require("zod"));
+var import_zod4 = __toESM(require("zod"));
 
 // src/lib/prisma.ts
 var import_client = require("@prisma/client");
 var db = globalThis.prisma || new import_client.PrismaClient();
 if (process.env.NODE_ENV !== "production") globalThis.prisma = db;
+
+// src/structures/schemas/ResponseMessage.ts
+var import_zod = require("zod");
+var responseMessageSchema = import_zod.z.string().describe("A message describing the result of the request.");
+var insultSchema = import_zod.z.object({
+  id: import_zod.z.string(),
+  author: import_zod.z.string(),
+  content: import_zod.z.string()
+});
+var listInsultsResponseSchema = import_zod.z.object({
+  insults: import_zod.z.array(insultSchema)
+});
+
+// src/structures/schemas/HTTP4xxError.ts
+var import_zod2 = require("zod");
+var http4xxErrorSchema = import_zod2.z.object({
+  statusCode: import_zod2.z.number().describe("HTTP status code."),
+  error: import_zod2.z.string().describe("HTTP status description."),
+  message: responseMessageSchema
+});
+
+// src/structures/schemas/HTTP5xxError.ts
+var import_zod3 = require("zod");
+var http5xxErrorSchema = import_zod3.z.object({
+  statusCode: import_zod3.z.number().describe("HTTP status code."),
+  error: import_zod3.z.string().describe("HTTP status description."),
+  message: responseMessageSchema
+});
 
 // src/routes/insults/delete.ts
 async function deleteInsult(app) {
@@ -50,9 +78,16 @@ async function deleteInsult(app) {
         summary: "Delete",
         description: "Delete insult based on uuid",
         tags: ["Insults"],
-        params: import_zod.default.object({
-          uuid: import_zod.default.string().uuid()
-        })
+        params: import_zod4.default.object({
+          uuid: import_zod4.default.string().uuid()
+        }),
+        response: {
+          200: import_zod4.default.object({
+            message: responseMessageSchema
+          }),
+          "4xx": http4xxErrorSchema,
+          "5xx": http5xxErrorSchema
+        }
       }
     },
     async (request, reply) => {
