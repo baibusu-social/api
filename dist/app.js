@@ -26,7 +26,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var import_fastify = __toESM(require("fastify"));
 var import_cors = __toESM(require("@fastify/cors"));
 var import_swagger = __toESM(require("@fastify/swagger"));
-var import_fastify_type_provider_zod5 = require("fastify-type-provider-zod");
+var import_fastify_type_provider_zod6 = require("fastify-type-provider-zod");
 var import_jwt = require("@fastify/jwt");
 
 // src/env.ts
@@ -115,7 +115,7 @@ async function auth(request, reply) {
 }
 
 // src/routes/insults/index.ts
-var import_fastify_type_provider_zod4 = require("fastify-type-provider-zod");
+var import_fastify_type_provider_zod5 = require("fastify-type-provider-zod");
 
 // src/routes/insults/create.ts
 var import_fastify_type_provider_zod = require("fastify-type-provider-zod");
@@ -254,12 +254,46 @@ async function deleteInsult(app2) {
   );
 }
 
+// src/routes/insults/random.ts
+var import_fastify_type_provider_zod4 = require("fastify-type-provider-zod");
+var import_zod8 = require("zod");
+async function randomInsults(app2) {
+  app2.withTypeProvider().get(
+    "/insults/random",
+    {
+      schema: {
+        summary: "Random",
+        description: "Get's you a random insult.",
+        tags: ["Insults"],
+        response: {
+          "4xx": http4xxErrorSchema,
+          "5xx": http5xxErrorSchema
+        }
+      }
+    },
+    async (request, reply) => {
+      const count = await db.insult.count();
+      const skip = Math.floor(Math.random() * count);
+      const insults = await db.insult.findFirst({
+        skip,
+        select: {
+          id: true,
+          author: true,
+          content: true
+        }
+      });
+      return reply.send({ insults });
+    }
+  );
+}
+
 // src/routes/insults/index.ts
 async function insultRoutes(app2) {
   const typedApp = app2.withTypeProvider();
   typedApp.register(createInsult);
   typedApp.register(listAllInsults);
   typedApp.register(deleteInsult);
+  typedApp.register(randomInsults);
 }
 
 // src/app.ts
@@ -269,9 +303,9 @@ var app = (0, import_fastify.default)({
 app.register(import_cors.default, {
   origin: "*"
 });
-app.register(import_swagger.default, { ...docs_default, transform: import_fastify_type_provider_zod5.jsonSchemaTransform, security: [{ ApiKeyAuth: [] }] });
-app.setValidatorCompiler(import_fastify_type_provider_zod5.validatorCompiler);
-app.setSerializerCompiler(import_fastify_type_provider_zod5.serializerCompiler);
+app.register(import_swagger.default, { ...docs_default, transform: import_fastify_type_provider_zod6.jsonSchemaTransform, security: [{ ApiKeyAuth: [] }] });
+app.setValidatorCompiler(import_fastify_type_provider_zod6.validatorCompiler);
+app.setSerializerCompiler(import_fastify_type_provider_zod6.serializerCompiler);
 app.get("/healthcheck", (req, res) => {
   res.send({ message: "Success" });
 });
