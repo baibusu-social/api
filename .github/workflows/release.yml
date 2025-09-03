@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     branches:
-      - release # Triggers when code is pushed to the main branch
+      - release # Triggers when code is pushed to the release branch
 
 jobs:
   release:
@@ -16,27 +16,25 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # Step 2: Set up Node.js
+      # Step 2: Set up pnpm
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8 # Use the pnpm version you prefer (8 is current stable)
+
+      # Step 3: Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20.x' # Use the Node.js version required for your project
-
-      # Step 3: Cache Node.js modules to speed up future builds
-      - name: Cache Node.js modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
+          cache: 'pnpm' # Enable pnpm caching
 
       # Step 4: Install dependencies
       - name: Install Dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       # Step 5: Run semantic-release
       - name: Run Semantic Release
-        run: npx semantic-release
+        run: pnpm exec semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }} # Provide the GitHub token for authentication
