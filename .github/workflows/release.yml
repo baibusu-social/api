@@ -9,18 +9,24 @@ jobs:
   release:
     permissions:
       contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
     runs-on: ubuntu-latest # Runs on an Ubuntu runner
 
     steps:
       # Step 1: Checkout the repository code
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch full history for semantic-release
+          token: ${{ secrets.GH_TOKEN }} # Use PAT for pushing commits back
 
       # Step 2: Set up pnpm
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10.14.0 # Use the pnpm version you prefer (8 is current stable)
+          version: 10.14.0
 
       # Step 3: Set up Node.js
       - name: Set up Node.js
@@ -33,7 +39,13 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
-      # Step 5: Run semantic-release
+      # Step 5: Configure Git
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      # Step 6: Run semantic-release
       - name: Run Semantic Release
         run: pnpm exec semantic-release
         env:
