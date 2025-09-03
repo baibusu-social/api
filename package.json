@@ -13,8 +13,7 @@
     "database:up": "docker compose --profile dev up -d",
     "database:stop": "docker compose --profile dev stop",
     "database:down": "docker compose --profile dev down",
-    "format": "prettier --write \"src/**/*.{js,ts}\"",
-    "prepare": "husky && husky install"
+    "format": "prettier --write \"src/**/*.{js,ts}\""
   },
   "keywords": [],
   "author": "baibusu.social",
