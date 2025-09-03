@@ -20,7 +20,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 8 # Use the pnpm version you prefer (8 is current stable)
+          version: 10.14.0 # Use the pnpm version you prefer (8 is current stable)
 
       # Step 3: Set up Node.js
       - name: Set up Node.js
