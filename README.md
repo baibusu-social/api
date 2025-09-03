@@ -3,6 +3,14 @@
    <p>
     <img src="https://share.baibusu.social/ZiCX0UZb.png">
   </p>
+
+![Discord](https://img.shields.io/discord/162293073718673409?style=for-the-badge&color=%237289da)
+![GitHub License](https://img.shields.io/github/license/baibusu-social/api?style=for-the-badge)
+![GitHub Tag](https://img.shields.io/github/v/tag/baibusu-social/api?style=for-the-badge)
+
+[![Made with Docker](https://img.shields.io/badge/Made_with-Docker-blue?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/ 'Go to Docker homepage')
+[![Made with GH Actions](https://img.shields.io/badge/CI-GitHub_Actions-blue?style=for-the-badge&logo=github-actions&logoColor=white)](https://github.com/features/actions 'Go to GitHub Actions homepage')
+
 </div>
 
 # **Baibusu.Social API**
@@ -26,6 +34,8 @@ Create needed directory.
 `mkdir babibusu`
 
 Fetch required files
+
+> _Notice_: The included compose file is our master docker compose file. It will include all services we utilize within our stack. You may comment services out but keep in mind any options with the "depends_on" when doing so.
 
 ```bash
 wget -O babibusu/docker-compose.yml https://raw.githubusercontent.com/baibusu-social/api/refs/heads/release/compose-example.yml
