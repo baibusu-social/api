@@ -11,5 +11,6 @@
     "psql",
     "trixie"
   ],
-  "conventionalCommits.scopes": ["docker", "github", "api", "auth", "documentation"]
+  "conventionalCommits.scopes": ["docker", "github", "api", "auth", "documentation"],
+  "git.ignoreLimitWarning": true
 }

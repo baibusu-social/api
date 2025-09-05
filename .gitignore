@@ -4,3 +4,4 @@
 /src/generated/prisma
 /docker-compose.yaml
 /dist
+/backend/node_modules
