@@ -1,20 +1,20 @@
-# Baibusu.Social Community
-# This is a master file, any options not being used can simply be commented out.
+# Baibusu API Compose Example
+# Updated Sep 5, 2025
+
 services:
   api:
-    image: ghcr.io/baibusu-social/api:latest
-    container_name: baibusu_api
+    image: apibackend:v1.0.8
+    container_name: baibusu-api-backend
     restart: unless-stopped
     ports:
       - ${PORT}:3000
     networks:
       - baibusu
     environment:
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${DATABASE_PASSWORD}@localhost:5432/api?schema=public # Same username and password as below
+      - DATABASE_URL=${DATABASE_URL} # Same username and password as below
       - APIKEY=${APIKEY} # Your super secret code
       - NODE_ENV=production # production, test (utilizes .env.test)
       - LOG_LEVEL=info # trace, debug, info, warn, error, fatal
-    depends_on:
-      db:
-        condition: service_healthy
-        restart: true
+networks:
+  baibusu:
+    external: true

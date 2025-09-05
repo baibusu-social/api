@@ -40,10 +40,11 @@ Fetch required files
 
 ```bash
 wget -O babibusu/docker-compose.yml https://raw.githubusercontent.com/baibusu-social/api/refs/heads/release/compose-example.yml
+wget -O babibusu/.env https://raw.githubusercontent.com/baibusu-social/api/refs/heads/release/.env.sample
 cd baibusu
 ```
 
 Make any edits required in the docker-compose.yml file, you may comment out any items you don't need. If they are listed in `depends_on` you must leave them or you
-will encounter errors. All API keys are mandatory.
+will encounter errors. All API keys are mandatory at the moment but a future solution will allow for dynamic API key creation to be stored on the database.
 
 `docker compose up -d`

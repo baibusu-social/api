@@ -20,4 +20,4 @@ COPY --from=build /app/dist /app/dist
 EXPOSE 3000
 
 # Run migrations before starting API
-CMD ["/bin/sh", "-c", "/wait-for-postgres.sh && node ./dist/app.js"]
+CMD ["/bin/sh", "-c", "node ./dist/app.js"]
