@@ -1,4 +1,6 @@
 import Fastify from 'fastify';
+import fastifyStatic from '@fastify/static';
+import path from 'path';
 import cors from '@fastify/cors';
 import fastifySwagger from '@fastify/swagger';
 import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
@@ -44,6 +46,7 @@ const start = async () => {
   await app.register(import('@scalar/fastify-api-reference'), {
     routePrefix: '/docs',
     configuration: {
+      theme: 'laserwave',
       spec: {
         content: () => app.swagger(),
       },
