@@ -1,3 +1,10 @@
+## [1.0.9](https://github.com/baibusu-social/api-backend/compare/v1.0.8...v1.0.9) (2025-09-05)
+
+
+### Bug Fixes
+
+* **api:** :zap: Added try/catch, updated docs ([8588421](https://github.com/baibusu-social/api-backend/commit/85884216be44aa27ff38114f389b0ada251c6944))
+
 ## [1.0.8](https://github.com/baibusu-social/api/compare/v1.0.7...v1.0.8) (2025-09-03)
 
 
