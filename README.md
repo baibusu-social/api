@@ -1,22 +1,22 @@
 <div align="center">
   <br />
    <p>
-    <img src="https://share.baibusu.social/ZiCX0UZb.png">
+    <img src="https://share.baibusu.social/akPIGo8t.png">
   </p>
 
 ![Discord](https://img.shields.io/discord/162293073718673409?style=for-the-badge&color=%237289da)
-![GitHub License](https://img.shields.io/github/license/baibusu-social/api?style=for-the-badge)
-![GitHub Tag](https://img.shields.io/github/v/tag/baibusu-social/api?style=for-the-badge)
+![GitHub License](https://img.shields.io/github/license/baibusu-social/api-backendd?style=for-the-badge)
+![GitHub Tag](https://img.shields.io/github/v/tag/baibusu-social/api-backend?style=for-the-badge)
 
 [![Made with Docker](https://img.shields.io/badge/Made_with-Docker-blue?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/ 'Go to Docker homepage')
 [![Made with GH Actions](https://img.shields.io/badge/CI-GitHub_Actions-blue?style=for-the-badge&logo=github-actions&logoColor=white)](https://github.com/features/actions 'Go to GitHub Actions homepage')
 [![Baibusu.Social](https://img.shields.io/badge/Baibusu.Social-a793b2?style=for-the-badge&logo=misskey&logoColor=white)](https://baibusu.social/ 'Go to Baibusu.Social')
 
-</div>
-
-# **Baibusu.Social API**
-
+<p>
 API service for our Discord bots and other services/servers. Intended for private use only and not available to the public outside of our associated bots and/or services. Documentation however is [provided](https://api.baibusu.social/docs) via scalar. Any issues with this service can be directed to Support Staff or by submitting and issue.
+</p>
+
+</div>
 
 ## Self-Hosting
 
